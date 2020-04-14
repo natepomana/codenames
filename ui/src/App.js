@@ -16,17 +16,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { endpoint } = this.state;
     this.state.socket.on("FromAPI", data => this.setState({ response: data }));
+
+    this.state.socket.on("playerAdded", player => {
+      console.log(player)
+      this.setState(prevState => ({ players: [...prevState.players, player] }));
+    });
   }
 
+
+
   render() {
-    const { response } = this.state;
     return (
       <div style={{ textAlign: "center" }}>
         {this.state.inGame
           ? <p>In Game</p>
-          : <Login socket={this.state.socket}></Login>
+          : <Login socket={this.state.socket} onlinePlayers={this.state.players.length}></Login>
         }
 
       </div>

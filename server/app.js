@@ -21,6 +21,7 @@ io.on("connection", socket => {
 
     socket.on('addPlayer', name => {
         game.addPlayer(name);
+        socket.broadcast.emit("playerAdded", name)
     })
 
     console.log("New client connected");

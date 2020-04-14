@@ -1,4 +1,4 @@
-import React, { Fragment, Component, useState } from "react";
+import React, { Fragment, Component } from "react";
 
 
 export class Login extends Component {
@@ -12,7 +12,7 @@ export class Login extends Component {
     }
 
     addPlayer = () => {
-        if (this.state.name != "") {
+        if (this.state.name !== "") {
             this.state.socket.emit('addPlayer', this.state.name);
             this.setState({
                 userCreated: true
@@ -28,15 +28,16 @@ export class Login extends Component {
 
 
     render() {
-        const userCreated = this.state.userCreated;
-        return (
-            userCreated ?
+        return (<div>
+            {this.state.userCreated ?
                 <p>Hey {this.state.name}!</p>
                 : <Fragment>
                     <p>Gotta sign up</p>
                     <input type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
                     <button onClick={this.addPlayer}>click mi</button>
-                </Fragment>
+                </Fragment>}
+            <p>Current number online: {this.props.onlinePlayers}</p>
+        </div>
         )
     }
 
