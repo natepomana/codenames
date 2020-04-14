@@ -20,7 +20,7 @@ const game = new Game();
 io.on("connection", socket => {
 
     socket.on('addPlayer', name => {
-        game.addPlayer(name)
+        game.addPlayer(name);
     })
 
     console.log("New client connected");

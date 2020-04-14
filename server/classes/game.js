@@ -30,6 +30,8 @@ module.exports = class Game {
     addPlayer(name) {
         let player = new Player(name)
         this.players.push(player)
+        console.log("NEW PLAYER")
+        console.log(player.name)
     }
 
 }
