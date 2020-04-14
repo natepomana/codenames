@@ -5,7 +5,7 @@
 // Points (Total points)
 // Cards (Array of cards)
 
-class Team {
+module.exports = class Team {
     constructor(color) {
         this.color = color;
         this.players = [];

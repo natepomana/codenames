@@ -1,6 +1,6 @@
-import 'team.js';
-import 'card.js';
-import 'player.js';
+var Team = require('./team')
+var Card = require('./card')
+var Player = require('./player')
 
 
 // Game
@@ -12,14 +12,14 @@ import 'player.js';
 // isGameOver? (True, False)
 // gameWinner (Null, Red or Blue)
 
-class Game {
+module.exports = class Game {
     constructor() {
         this.players = [];
         this.redTeam = new Team("red");
         this.blueTeam = new Team("blue")
-        this.bomb = Null;
-        this.gameOver = False;
-        this.gameWinner = Null;
+        this.bomb = null;
+        this.gameOver = false;
+        this.gameWinner = null;
         this.turn = "red";
     }
 
@@ -27,6 +27,9 @@ class Game {
         this.turn = turn === "red" ? "blue" : "red"
     }
 
-
+    addPlayer(name) {
+        let player = new Player(name)
+        this.players.push(player)
+    }
 
 }

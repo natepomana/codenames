@@ -3,10 +3,10 @@
 // SpyMaster? (True,False,Null)
 // Team (B/R, Null)
 
-class Player {
+module.exports = class Player {
     constructor(name) {
         this.name = name;
-        this.team = Null;
-        this.isSpyMaster = False;
+        this.team = null;
+        this.isSpyMaster = false;
     }
 }
