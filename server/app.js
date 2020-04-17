@@ -20,8 +20,9 @@ const game = new Game();
 io.on("connection", socket => {
 
     socket.on('addPlayer', name => {
-        game.addPlayer(name);
-        socket.broadcast.emit("playerAdded", name)
+        const isAdmin = game.addPlayer(name, socket.id);
+        socket.emit("setAdmin", isAdmin)
+        io.sockets.emit("playerAdded", game.getPlayersName())
     })
 
     console.log("New client connected");
@@ -43,7 +44,7 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 const getApiAndEmit = async socket => {
     try {
-        const res = "yeasdfasdfet"
+        const res = "yerr"
         socket.emit("FromAPI", res); // Emitting a new message. It will be consumed by the client
     } catch (error) {
         console.error(`Error: ${error.code}`);

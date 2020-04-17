@@ -26,17 +26,22 @@ export class Login extends Component {
         });
     }
 
-
     render() {
+        const playerList = this.props.onlinePlayers.map(player => {
+            return <li>{player}</li>;
+        });
         return (<div>
             {this.state.userCreated ?
-                <p>Hey {this.state.name}!</p>
+                <Fragment>
+                    <p>Hey {this.state.name}!</p>
+                    {this.props.admin ? <button onClick={this.props.startGame}>Start Game</button> : <Fragment></Fragment>}
+                </Fragment>
                 : <Fragment>
-                    <p>Gotta sign up</p>
+                    <p>Gotta sign up my dood</p>
                     <input type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
                     <button onClick={this.addPlayer}>click mi</button>
                 </Fragment>}
-            <p>Current number online: {this.props.onlinePlayers}</p>
+            <p>Players online: {playerList}</p>
         </div>
         )
     }

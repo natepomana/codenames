@@ -27,11 +27,29 @@ module.exports = class Game {
         this.turn = turn === "red" ? "blue" : "red"
     }
 
-    addPlayer(name) {
-        let player = new Player(name)
+    addPlayer(name, id) {
+        const isAdmin = this.players.length === 0 ? true : false;
+        let player = new Player(name, id, isAdmin);
         this.players.push(player)
         console.log("NEW PLAYER")
-        console.log(player.name)
+        console.log(player.name, player.id)
+        return isAdmin
+    }
+
+    getPlayersName() {
+        return this.players.map(player => {
+            return player.name;
+        });
+    }
+
+    getPlayerId(name) {
+        this.players.forEach(player => {
+            console.log(player)
+            if (player.name === name) {
+                console.log(player.id);
+                return player.id
+            }
+        })
     }
 
 }

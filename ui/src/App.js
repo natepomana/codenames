@@ -6,32 +6,40 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      response: false,
       endpoint: "http://127.0.0.1:4001",
+      id: "",
       inGame: false,
       userCreated: false,
       socket: socketIOClient("http://127.0.0.1:4001"),
+      admin: false,
       players: []
     };
   }
 
   componentDidMount() {
-    this.state.socket.on("FromAPI", data => this.setState({ response: data }));
+    this.state.socket.on('connect', () => {
+      this.setState({ id: this.state.socket.id });
+    });
 
-    this.state.socket.on("playerAdded", player => {
-      console.log(player)
-      this.setState(prevState => ({ players: [...prevState.players, player] }));
+    this.state.socket.on("setAdmin", isAdmin => {
+      this.setState({ admin: isAdmin })
+    });
+
+    this.state.socket.on("playerAdded", players => {
+      this.setState({ players: players });
     });
   }
 
-
+  startGame = () => {
+    this.state.socket.emit("startGame")
+  }
 
   render() {
     return (
       <div style={{ textAlign: "center" }}>
         {this.state.inGame
           ? <p>In Game</p>
-          : <Login socket={this.state.socket} onlinePlayers={this.state.players.length}></Login>
+          : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>
         }
 
       </div>
