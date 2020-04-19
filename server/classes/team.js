@@ -9,8 +9,22 @@ module.exports = class Team {
     constructor(color) {
         this.color = color;
         this.players = [];
-        this.spymaster = null;
+        this.spyMaster = null;
         this.points = 0;
         this.cards = []
     }
+
+
+    addPlayers(players) {
+        this.players = players;
+    }
+
+    addCards(cards) {
+        this.cards = cards;
+    }
+
+    setSpyMaster() {
+        this.spyMaster = this.players[Math.random(0, this.players.length - 1)];
+    }
+
 }

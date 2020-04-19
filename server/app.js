@@ -15,15 +15,27 @@ const io = socketIo(server); // < Interesting!
 let interval;
 let count;
 const Game = require('./classes/game')
+const WordDeck = require('./classes/wordDeck');
 const game = new Game();
+const wordDeck = new WordDeck();
+console.log("Game created.");
 
 io.on("connection", socket => {
 
     socket.on('addPlayer', name => {
         const isAdmin = game.addPlayer(name, socket.id);
-        socket.emit("setAdmin", isAdmin)
-        io.sockets.emit("playerAdded", game.getPlayersName())
-    })
+        socket.emit("setAdmin", isAdmin);
+        io.sockets.emit("playerAdded", game.getPlayersName());
+    });
+
+    socket.on('startGame', id => {
+        if (game.admin === id) {
+            const success = game.startGame(wordDeck);
+            if (success) {
+                io.sockets.emit("gameStart");
+            }
+        }
+    });
 
     console.log("New client connected");
     count += 1;

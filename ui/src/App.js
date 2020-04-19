@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import { Login } from './component/Login';
+import { Game } from './component/Game'
 
 class App extends Component {
   constructor() {
@@ -17,6 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Login and lobby
     this.state.socket.on('connect', () => {
       this.setState({ id: this.state.socket.id });
     });
@@ -28,17 +30,21 @@ class App extends Component {
     this.state.socket.on("playerAdded", players => {
       this.setState({ players: players });
     });
+
+    this.state.socket.on("gameStart", data => {
+      this.setState({ inGame: true })
+    })
   }
 
   startGame = () => {
-    this.state.socket.emit("startGame")
+    this.state.socket.emit("startGame", this.state.id)
   }
 
   render() {
     return (
       <div style={{ textAlign: "center" }}>
         {this.state.inGame
-          ? <p>In Game</p>
+          ? <Game socket={this.state.socket}></Game>
           : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>
         }
 
