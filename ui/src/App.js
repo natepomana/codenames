@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import { Login } from './component/Login';
-import { Game } from './component/Game'
+import { Game } from './component/Game';
+import { Box } from "@chakra-ui/core";
 
 class App extends Component {
   constructor() {
@@ -42,13 +43,13 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ textAlign: "center" }}>
+      <Box m="0 auto" width={4 / 5}>
         {this.state.inGame
           ? <Game socket={this.state.socket}></Game>
           : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>
         }
 
-      </div>
+      </Box>
     );
   }
 }

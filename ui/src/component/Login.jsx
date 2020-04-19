@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
-import { MDBInput } from 'mdbreact'
-
+import { Button } from "@chakra-ui/core";
 
 export class Login extends Component {
     constructor(props) {
@@ -39,8 +38,8 @@ export class Login extends Component {
                 </Fragment>
                 : <Fragment>
                     <p>Gotta sign up my dood</p>
-                    <MDBInput label="nickname" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
-                    <button onClick={this.addPlayer}>click mi</button>
+                    <input label="Nickname" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
+                    <button label="Join" variant="outline-brand" onClick={this.addPlayer}>join</button>
                 </Fragment>}
             <p>Players online: {playerList}</p>
         </div>
