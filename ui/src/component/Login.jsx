@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from "react";
-import { Button } from "@chakra-ui/core";
+import { Button, Box, Input, FormControl, FormLabel, ListItem } from "@chakra-ui/core";
 
 export class Login extends Component {
     constructor(props) {
@@ -28,21 +28,26 @@ export class Login extends Component {
 
     render() {
         const playerList = this.props.onlinePlayers.map(player => {
-            return <li>{player}</li>;
+            return <ListItem>{player}</ListItem>;
         });
-        return (<div>
+        return (<Box>
             {this.state.userCreated ?
                 <Fragment>
                     <p>Hey {this.state.name}!</p>
                     {this.props.admin ? <button onClick={this.props.startGame}>Start Game</button> : <Fragment></Fragment>}
                 </Fragment>
-                : <Fragment>
-                    <p>Gotta sign up my dood</p>
-                    <input label="Nickname" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
-                    <button label="Join" variant="outline-brand" onClick={this.addPlayer}>join</button>
-                </Fragment>}
+                : <Box w={1 / 5} m="0 auto">
+                    <p>Codenames woooo</p>
+                    <FormControl>
+                        <FormLabel htmlFor="nickname">Nickname</FormLabel>
+                        <Input mb={2} label="Nickname" id="nickname" placeholder="neeto" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
+                        <Button label="Join Game" variant="outline" onClick={this.addPlayer}>Join Game</Button>
+                    </FormControl>
+
+
+                </Box>}
             <p>Players online: {playerList}</p>
-        </div>
+        </Box>
         )
     }
 

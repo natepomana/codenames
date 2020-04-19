@@ -4,13 +4,15 @@ import { Login } from './component/Login';
 import { Game } from './component/Game';
 import { Box } from "@chakra-ui/core";
 
+
 class App extends Component {
+
   constructor() {
     super();
     this.state = {
       endpoint: "http://127.0.0.1:4001",
       id: "",
-      inGame: false,
+      inGame: true,
       userCreated: false,
       socket: socketIOClient("http://127.0.0.1:4001"),
       admin: false,
@@ -41,9 +43,11 @@ class App extends Component {
     this.state.socket.emit("startGame", this.state.id)
   }
 
+
+
   render() {
     return (
-      <Box m="0 auto" width={4 / 5}>
+      <Box m="0 auto" width={3 / 5}>
         {this.state.inGame
           ? <Game socket={this.state.socket}></Game>
           : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>
