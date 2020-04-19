@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from "react";
+import { MDBInput } from 'mdbreact'
 
 
 export class Login extends Component {
@@ -38,7 +39,7 @@ export class Login extends Component {
                 </Fragment>
                 : <Fragment>
                     <p>Gotta sign up my dood</p>
-                    <input type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
+                    <MDBInput label="nickname" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />
                     <button onClick={this.addPlayer}>click mi</button>
                 </Fragment>}
             <p>Players online: {playerList}</p>
