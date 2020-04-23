@@ -58,6 +58,7 @@ module.exports = class Game {
             // leaves 8 cards left, random pick to be assassin
             this.blankCards = cardDivision.slice(17, 24);
             this.setBomb(cardDivision.slice(24)[0]);
+            return true;
         }
         else {
             return false;
@@ -124,6 +125,22 @@ module.exports = class Game {
         const divider = Math.ceil(this.players.length / 2);
         this.redTeam.addPlayers(this.players.slice(0, divider));
         this.blueTeam.addPlayers(this.players.slice(divider));
+    }
+
+
+    getPlayerTeam(id) {
+        let result;
+        this.players.forEach(player => {
+            if (player.id === id) {
+                result = {
+                    team: this.redTeam.hasPlayer(player.id) ? "red" : "blue",
+                    spyMaster: this.redTeam.spyMaster.id === id || this.blueTeam.spyMaster.id === id ? true : false
+                };
+                return;
+            }
+
+        });
+        return result;
     }
 
 }

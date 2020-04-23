@@ -31,4 +31,16 @@ module.exports = class Team {
         this.spyMaster = this.players[Math.floor(Math.random() * this.players.length)];
     }
 
+    hasPlayer(id) {
+        let decide = false;
+        this.players.forEach(player => {
+            if (player.id === id) {
+                console.log("Players match:", id, player);
+                decide = true;
+                return;
+            }
+        });
+        return decide;
+    }
+
 }

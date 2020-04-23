@@ -31,9 +31,14 @@ io.on("connection", socket => {
         if (game.admin === id) {
             const success = game.startGame(wordDeck);
             if (success) {
-                io.sockets.emit("gameStart");
+                io.sockets.emit("gameStart", { cards: game.cards });
             }
         }
+    });
+
+    socket.on("getPlayerInfo", (id, fn) => {
+        console.log("Request from " + id);
+        fn(game.getPlayerTeam(id));
     });
 
     console.log("New client connected");
