@@ -5,10 +5,10 @@
 // Selected? (True, False)
 
 module.exports = class Card {
-    constructor(word, team, isBomb) {
+    constructor(word) {
         this.word = word;
-        this.team = team;
-        this.isBomb = isBomb;
+        this.team = null;
+        this.isBomb = false;
         this.selected = false;
     }
 }

@@ -19,12 +19,16 @@ module.exports = class Team {
         this.players = players;
     }
 
-    addCards(cards) {
+    addCards(cards, team) {
+        cards.forEach(card => {
+            card.team = team;
+            card.isBomb = false;
+        })
         this.cards = cards;
     }
 
     setSpyMaster() {
-        this.spyMaster = this.players[Math.random(0, this.players.length - 1)];
+        this.spyMaster = this.players[Math.floor(Math.random() * this.players.length)];
     }
 
 }

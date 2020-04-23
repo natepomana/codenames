@@ -12,11 +12,12 @@ class App extends Component {
     this.state = {
       endpoint: "http://127.0.0.1:4001",
       id: "",
-      inGame: true,
+      inGame: false,
       userCreated: false,
       socket: socketIOClient("http://127.0.0.1:4001"),
       admin: false,
-      players: []
+      players: [],
+      cards: null
     };
   }
 
@@ -35,7 +36,7 @@ class App extends Component {
     });
 
     this.state.socket.on("gameStart", data => {
-      this.setState({ inGame: true })
+      this.setState({ inGame: true, cards: data })
     })
   }
 
@@ -49,7 +50,7 @@ class App extends Component {
     return (
       <Box m="0 auto" width={3 / 5}>
         {this.state.inGame
-          ? <Game socket={this.state.socket}></Game>
+          ? <Game socket={this.state.socket} cards={this.state.cards}></Game>
           : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>
         }
 

@@ -22,7 +22,8 @@ module.exports = class Game {
         this.gameWinner = null;
         this.turn = "red";
         this.admin = null;
-        this.cards = []
+        this.cards = [];
+        this.blankCards = [];
         this.totalCards = 25;
     }
 
@@ -35,35 +36,38 @@ module.exports = class Game {
         if (this.players.length >= 4) {
             // divide players into teams (randomize pls)
             this.randomizePlayers();
-            const divider = Math.ceil(this.players.length / 2);
-            let playersDivision = this.players;
-            this.redTeam.addPlayers(playersDivision.splice(0, divider));
-            this.blueTeam.addPlayers(playersDivision);
-            // once teams are divided, determine gameMaster per team
+            this.dividePlayers();
+            // once teams are divided, determine spyMaster per team
             this.redTeam.setSpyMaster();
             this.blueTeam.setSpyMaster();
             // select 25 cards from wordDeck to use for game
-            while (this.cards.length > 25) {
+            while (this.cards.length < 25) {
                 // select random number between 0 and wordDeck.length
-                let selectedWord = wordDeck.words[Math.random(0, this.wordDeck.length - 1)];
+                let selectedWord = wordDeck.words[Math.floor(Math.random() * wordDeck.words.length)];
                 // If the word is not in this.cards, add it.
                 if (!this.containsWord(selectedWord)) {
-                    this.cards.append(new Card(selectedWord));
+                    this.cards.push(new Card(selectedWord));
                 }
             }
             // ok so we have 25 cards, let's distribute them to teams. make a copy for splicing.
             let cardDivision = this.cards;
             // red always goes first, they get 9
-            this.redTeam.addCards(cardDivision.splice(0, 9));
+            this.redTeam.addCards(cardDivision.slice(0, 9), "red");
             // blue gets 8, this follows rules based on size.
-            this.blueTeam.addCards(cardDivision.splice(0, 8));
+            this.blueTeam.addCards(cardDivision.slice(9, 17), "blue");
             // leaves 8 cards left, random pick to be assassin
-
+            this.blankCards = cardDivision.slice(17, 24);
+            this.setBomb(cardDivision.slice(24)[0]);
         }
         else {
             return false;
         }
 
+    }
+
+    setBomb(card) {
+        card.isBomb = true;
+        this.bomb = card;
     }
 
     containsWord(word) {
@@ -114,6 +118,12 @@ module.exports = class Game {
                 return player.id
             }
         })
+    }
+
+    dividePlayers() {
+        const divider = Math.ceil(this.players.length / 2);
+        this.redTeam.addPlayers(this.players.slice(0, divider));
+        this.blueTeam.addPlayers(this.players.slice(divider));
     }
 
 }

@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from "react";
 import { Button, Box, Grid } from "@chakra-ui/core";
+import Card from "./Card";
 
 
 export class Game extends Component {
@@ -13,6 +14,15 @@ export class Game extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.state.socket.emit("")
+    }
+
+
+
+    cardClicked = (word, team) => {
+        console.log(word);
+    }
 
 
     render() {
@@ -20,8 +30,8 @@ export class Game extends Component {
         return (<Fragment>
             <Box> Top Data </Box>
             <Grid mb={5} templateColumns="repeat(5, 1fr)" gap={5}>
-                {this.state.cards.map(word => {
-                    return <Box w="100%" h="50px" textAlign="center" bg="blue.500">{word}</Box>
+                {this.props.cards.map(word => {
+                    return <Card cardClicked={this.cardClicked} word={word.name} team={word.team}></Card>
                 })}
             </Grid>
             <Button>End Turn</Button> <Button>Shoot your shot!</Button>
