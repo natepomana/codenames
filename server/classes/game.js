@@ -58,6 +58,8 @@ module.exports = class Game {
             // leaves 8 cards left, random pick to be assassin
             this.blankCards = cardDivision.slice(17, 24);
             this.setBomb(cardDivision.slice(24)[0]);
+            // randomize cards since they're all assigned.
+            this.randomizeCards();
             return true;
         }
         else {
@@ -91,6 +93,19 @@ module.exports = class Game {
             randomPlayers[randomIndex] = temp;
         }
         this.players = randomPlayers;
+    }
+
+    randomizeCards() {
+        let randomCards = this.cards;
+        var currIndex = randomCards.length, temp, randIndex;
+        while (0 !== currIndex) {
+            randIndex = Math.floor(Math.random() * currIndex);
+            currIndex -= 1;
+            temp = randomCards[currIndex];
+            randomCards[currIndex] = randomCards[randIndex];
+            randomCards[randIndex] = temp;
+        }
+        this.cards = randomCards;
     }
 
     addPlayer(name, id) {
