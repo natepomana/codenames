@@ -29,7 +29,7 @@ export class Game extends Component {
 
     renderCards = () => {
         const cardsView = this.state.cards.map(card => {
-            return <Card word={card.word} team={card.team}></Card>
+            return <Card word={card.word} team={card.team} isSpyMaster={this.state.spyMaster} isBomb={card.isBomb}></Card>
         });
         return cardsView;
     }
@@ -37,14 +37,14 @@ export class Game extends Component {
     render() {
         const allCards = this.state.cards;
         console.log(allCards);
-        return (<Fragment>
+        return (<Box mt={350}>
             <Box> I am on the {this.state.team} team. Am I a spyMaster? {this.state.spyMaster ? "yes" : "no"}</Box>
 
             <Grid mb={5} templateColumns="repeat(5, 1fr)" gap={5}>
                 {this.renderCards()}
             </Grid>
             <Button>End Turn</Button> <Button>Shoot your shot!</Button>
-        </Fragment>
+        </Box >
         )
     }
 
