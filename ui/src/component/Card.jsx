@@ -19,7 +19,7 @@ class Card extends Component {
     render() {
         return (
             <Flex rounded="md" w="100%" h="120px" align="center" justify="center" borderWidth="1px" onClick={this.cardClickedHandler}>
-                test
+                {this.state.word}
             </Flex>
         )
     }

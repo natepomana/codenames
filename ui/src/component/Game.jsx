@@ -17,7 +17,6 @@ export class Game extends Component {
 
     componentDidMount = () => {
         this.state.socket.emit("getPlayerInfo", this.state.socket.id, (data) => {
-            console.log(data);
             this.setState({ team: data.team, spyMaster: data.spyMaster });
         });
     }
@@ -28,6 +27,12 @@ export class Game extends Component {
         console.log(word);
     }
 
+    renderCards = () => {
+        const cardsView = this.state.cards.map(card => {
+            return <Card word={card.word} team={card.team}></Card>
+        });
+        return cardsView;
+    }
 
     render() {
         const allCards = this.state.cards;
@@ -36,7 +41,7 @@ export class Game extends Component {
             <Box> I am on the {this.state.team} team. Am I a spyMaster? {this.state.spyMaster ? "yes" : "no"}</Box>
 
             <Grid mb={5} templateColumns="repeat(5, 1fr)" gap={5}>
-
+                {this.renderCards()}
             </Grid>
             <Button>End Turn</Button> <Button>Shoot your shot!</Button>
         </Fragment>
