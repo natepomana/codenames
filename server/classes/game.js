@@ -158,4 +158,32 @@ module.exports = class Game {
         return result;
     }
 
+    getPlayerTeamIds(playerId, excludeMaster) {
+        if (this.redTeam.hasPlayer(playerId)) {
+            return excludeMaster ? this.redTeam.getIdsExcludingSpyMaster() : this.redTeam.getIds()
+        }
+        else {
+            return excludeMaster ? this.blueTeam.getIdsExcludingSpyMaster() : this.blueTeam.getIds()
+        }
+    }
+
+
+    cardSelected(selectedCard) {
+        this.cards.forEach(card => {
+            if (card.word === selectedCard && card.found === false) {
+                card.selected = true;
+                return;
+            }
+        })
+    }
+
+    cardDeselected(deselectedCard) {
+        this.cards.forEach(card => {
+            if (card.word === deselectedCard && card.found === false) {
+                card.selected === false;
+                return;
+            }
+        })
+    }
+
 }

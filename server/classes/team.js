@@ -31,6 +31,14 @@ module.exports = class Team {
         this.spyMaster = this.players[Math.floor(Math.random() * this.players.length)];
     }
 
+    getIds() {
+        return this.players.map(player => player.id);
+    }
+
+    getIdsExcludingSpyMaster() {
+        return this.getIds().filter(id => id !== this.spyMaster.id);
+    }
+
     hasPlayer(id) {
         let decide = false;
         this.players.forEach(player => {

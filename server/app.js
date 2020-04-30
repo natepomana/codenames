@@ -41,6 +41,23 @@ io.on("connection", socket => {
         fn(game.getPlayerTeam(id));
     });
 
+
+    socket.on("cardSelected", card => {
+        // this was "clicked", update card in game, notify team of new cards.
+        game.cardSelected(card)
+        const teamIds = game.getPlayerTeamIds(socket.id, true)
+        console.log("notify: " + teamIds);
+        teamIds.forEach(id => {
+            io.to(id).emit('updateCardSelected', { cards: game.cards })
+        })
+
+    });
+
+    socket.on("cardDeselected", card => {
+        game.cardDeselected(card)
+    });
+
+
     console.log("New client connected");
     count += 1;
     socket.on("disconnect", () => {

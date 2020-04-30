@@ -37,8 +37,11 @@ class App extends Component {
     });
 
     this.state.socket.on("gameStart", data => {
+      console.log(data);
       this.setState({ inGame: true, cards: data.cards })
-    })
+    });
+
+
   }
 
   startGame = () => {

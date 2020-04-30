@@ -37,7 +37,6 @@ export class Login extends Component {
                     {this.props.admin ? <Button label="Start Game" variant="outline" onClick={this.props.startGame}>Start Game</Button> : <Fragment></Fragment>}
                 </Fragment>
                 : <Box w={1 / 5} m="0 auto">
-                    <p>Codenames woooo</p>
                     <FormControl>
                         <FormLabel htmlFor="nickname">Nickname</FormLabel>
                         <Input mb={2} label="Nickname" id="nickname" placeholder="neeto" type="text" value={this.state.name} onChange={evt => this.updateName(evt)} />

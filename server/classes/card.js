@@ -10,5 +10,6 @@ module.exports = class Card {
         this.team = null;
         this.isBomb = false;
         this.selected = false;
+        this.found = false;
     }
 }
