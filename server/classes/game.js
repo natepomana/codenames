@@ -171,16 +171,7 @@ module.exports = class Game {
     cardSelected(selectedCard) {
         this.cards.forEach(card => {
             if (card.word === selectedCard && card.found === false) {
-                card.selected = true;
-                return;
-            }
-        })
-    }
-
-    cardDeselected(deselectedCard) {
-        this.cards.forEach(card => {
-            if (card.word === deselectedCard && card.found === false) {
-                card.selected === false;
+                card.selected = card.selected ? false : true;
                 return;
             }
         })

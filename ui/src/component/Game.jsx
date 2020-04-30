@@ -29,8 +29,6 @@ export class Game extends Component {
     }
 
     cardClicked = (card) => {
-        console.log(card);
-
         if (this.state.turn && !this.state.spyMaster) {
             this.state.socket.emit("cardSelected", card);
         }
