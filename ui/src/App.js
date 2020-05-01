@@ -13,7 +13,7 @@ class App extends Component {
       id: "",
       inGame: false,
       userCreated: false,
-      socket: socketIOClient(),
+      socket: socketIOClient("http://localhost:8080"),
       admin: false,
       players: [],
       cards: null,
