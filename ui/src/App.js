@@ -10,11 +10,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      endpoint: "http://127.0.0.1:4001",
       id: "",
       inGame: false,
       userCreated: false,
-      socket: socketIOClient("http://127.0.0.1:4001"),
+      socket: socketIOClient(),
       admin: false,
       players: [],
       cards: null,

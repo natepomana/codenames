@@ -2,11 +2,11 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 8080;
 const index = require("./routes/index");
 
 const app = express();
-app.use(index);
+app.use(express.static(path.join(__dirname, '../../build')));
 
 const server = http.createServer(app);
 
