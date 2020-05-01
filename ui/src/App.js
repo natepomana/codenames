@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import { Login } from './component/Login';
 import { Game } from './component/Game';
-import { Box } from "@chakra-ui/core";
+import { Box, Button } from "@chakra-ui/core";
 
 
 class App extends Component {
@@ -40,17 +40,24 @@ class App extends Component {
       this.setState({ inGame: true, cards: data.cards })
     });
 
+    this.state.socket.on("gameReset", () => {
+      window.location.reload();
+    })
+
   }
 
   startGame = () => {
     this.state.socket.emit("startGame", this.state.id)
   }
 
-
+  resetGame = () => {
+    this.state.socket.emit("resetGame", this.state.id);
+  }
 
   render() {
     return (
       <Box m="0 auto" width={3 / 5}>
+        {this.state.admin ? <Button onClick={this.resetGame.bind(this)}>Reset Game</Button> : null}
         {this.state.inGame
           ? <Game socket={this.state.socket} cards={this.state.cards} playerInfo={this.state.playerInfo}></Game>
           : <Login socket={this.state.socket} onlinePlayers={this.state.players} admin={this.state.admin} startGame={this.startGame}></Login>

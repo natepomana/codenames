@@ -15,7 +15,7 @@ const io = socketIo(server); // < Interesting!
 let count;
 const Game = require('./classes/game')
 const WordDeck = require('./classes/wordDeck');
-const game = new Game();
+let game = new Game();
 const wordDeck = new WordDeck();
 console.log("Game created.");
 
@@ -82,6 +82,14 @@ io.on("connection", socket => {
         }
         io.sockets.emit("updateTurnActions", data)
     });
+
+    socket.on("resetGame", id => {
+        if (game.admin === id) {
+            // reset everything
+            game = new Game();
+            io.sockets.emit("gameReset");
+        }
+    })
 
     console.log("New client connected");
     count += 1;
