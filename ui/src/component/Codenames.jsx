@@ -46,7 +46,6 @@ class Codenames extends Component {
     }
 
 
-
     render() {
         return (
             <Box m="0 auto" width={3 / 5}>

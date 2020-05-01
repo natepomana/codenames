@@ -53,10 +53,35 @@ io.on("connection", socket => {
 
     });
 
-    socket.on("cardDeselected", card => {
-        game.cardDeselected(card)
+    socket.on("submitSelection", () => {
+        // submit selection(s)
+        game.submitSelection();
+        // check scores, if one is 0 we have a winner.
+        if (game.isOver || game.hasWinnerByScore()) {
+            game.endGame();
+        }
+
+        const data = {
+            cards: game.cards,
+            redTeamPoints: game.redTeam.points,
+            blueTeamPoints: game.blueTeam.points,
+            turn: game.turn,
+            gameOver: game.gameOver
+        }
+        io.sockets.emit("updateTurnActions", data)
     });
 
+    socket.on("endTurn", () => {
+        game.endTurn();
+        const data = {
+            cards: game.cards,
+            redTeamPoints: game.redTeam.points,
+            blueTeamPoints: game.blueTeam.points,
+            turn: game.turn,
+            gameOver: game.gameOver
+        }
+        io.sockets.emit("updateTurnActions", data)
+    });
 
     console.log("New client connected");
     count += 1;

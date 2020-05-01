@@ -25,12 +25,18 @@ class Card extends Component {
         // if the card is already chosen for good set to team color
         // if the card is pre-selected, set to off-grey for team
         // if they're not a game master, make it light grey
-        if (this.state.selectionConfirmed) {
+        if (this.props.isSelectionConfirmed) {
             if (this.state.team === "red") {
                 return "red.300";
             }
             if (this.state.team === "blue") {
                 return "blue.400";
+            }
+            else if (this.state.isBomb) {
+                return "gray.600";
+            }
+            else {
+                return "gray.400";
             }
         }
         if (this.props.isTempSelected) {

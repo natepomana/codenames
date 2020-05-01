@@ -13,7 +13,8 @@ export class Game extends Component {
             cards: props.cards,
             redCardsLeft: 9,
             blueCardsLeft: 8,
-            spyMaster: null
+            spyMaster: null,
+            gameOver: false
         }
     }
 
@@ -23,22 +24,59 @@ export class Game extends Component {
         });
 
         this.state.socket.on("updateCardSelected", cards => {
-            console.log(cards.cards);
             this.setState({ cards: cards.cards })
         });
+
+
+        this.state.socket.on("updateTurnActions", data => {
+            console.log(data);
+
+            this.setState({
+                cards: data.cards,
+                turn: this.state.team === data.turn ? true : false,
+                redCardsLeft: data.redTeamPoints,
+                blueCardsLeft: data.blueTeamPoints,
+                gameOver: data.gameOver
+            })
+        })
+
     }
 
     cardClicked = (card) => {
-        if (this.state.turn && !this.state.spyMaster) {
+        if (this.state.turn && !this.state.spyMaster && !this.state.gameOver) {
             this.state.socket.emit("cardSelected", card);
         }
     }
 
+    submitSelection = () => {
+        if (this.state.turn && !this.state.spyMaster && !this.state.gameOver) {
+            this.state.socket.emit("submitSelection");
+        }
+    }
+
+    endTurn = () => {
+        if (this.state.turn && !this.state.spyMaster && !this.state.gameOver) {
+            this.state.socket.emit("endTurn");
+        }
+    }
+
+
     renderCards = () => {
         const cardsView = this.state.cards.map(card => {
-            return <Card word={card.word} team={card.team} isSpyMaster={this.state.spyMaster} isBomb={card.isBomb} isTempSelected={card.selected} cardClicked={this.cardClicked} isSelectionConfirmed={false}></Card>
+            return <Card word={card.word} team={card.team} isSpyMaster={this.state.spyMaster} isBomb={card.isBomb} isTempSelected={card.selected} cardClicked={this.cardClicked} isSelectionConfirmed={card.found}></Card>
         });
         return cardsView;
+    }
+
+    renderEndGame = () => {
+        if (this.state.gameOver) {
+            if (this.state.turn) {
+                return <Box>you won my dood</Box>
+            }
+            else {
+                return <Box>You lost my dood</Box>
+            }
+        }
     }
 
     render() {
@@ -48,11 +86,12 @@ export class Game extends Component {
                 <Text fontSize="xl">Red Team: {this.state.redCardsLeft}   Blue Team: {this.state.blueCardsLeft}</Text>
             </Box>
             <Box> I am on the {this.state.team} team. Am I a spyMaster? {this.state.spyMaster ? "yes" : "no"}</Box>
-
+            <Box>It is {this.state.turn ? "your" : "not your"} turn.</Box>
+            {this.renderEndGame()}
             <Grid mb={5} templateColumns="repeat(5, 1fr)" gap={5}>
                 {this.renderCards()}
             </Grid>
-            <Button>End Turn</Button> <Button>Shoot your shot!</Button>
+            <Button onClick={this.endTurn.bind(this)}>End Turn</Button> <Button onClick={this.submitSelection.bind(this)}>Shoot your shot!</Button>
         </Box >
         )
     }

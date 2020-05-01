@@ -177,4 +177,70 @@ module.exports = class Game {
         })
     }
 
+    submitSelection() {
+        // go through cards. if selected == true, turn found to true, update score(s)
+        // store scores beforehand to see if they picked a faulty card
+        let wrongTeamSelection = false;
+        this.cards.forEach(card => {
+            if (card.selected) {
+                card.selected = false;
+                card.found = true;
+                if (this.bomb === card) {
+                    this.gameOver = true;
+                    this.gameWinner = this.turn === "red" ? "blue" : "red";
+                }
+                if (this.redTeam.hasCard(card.word)) {
+                    console.log("RED CARD")
+                    this.redTeam.points -= 1;
+                    console.log(this.redTeam.points)
+                    if (this.turn === "blue") {
+                        // picked the wrong card..
+                        wrongTeamSelection = true;
+                    }
+                }
+                else if (this.blueTeam.hasCard(card.word)) {
+                    this.blueTeam.points -= 1;
+                    if (this.turn === "red") {
+                        // picked the wrong card..
+                        wrongTeamSelection = true;
+                    }
+                }
+                else {
+                    // it was a blank card. should we do anything here?
+                    wrongTeamSelection = true;
+                }
+            }
+        });
+        console.log(wrongTeamSelection)
+        if (wrongTeamSelection) {
+            this.endTurn();
+        }
+    }
+
+    endTurn() {
+        this.turn = this.turn === "red" ? "blue" : "red";
+    }
+
+    hasWinnerByScore() {
+        if (this.redTeam.points === 0) {
+            this.gameOver = true;
+            this.gameWinner = "red"
+            return true;
+        }
+        else if (this.blueTeam.points === 0) {
+            this.gameOver = true;
+            this.gameWinner = "blue";
+            return true;
+        }
+        return false;
+    }
+
+
+    endGame() {
+        // game is over, reveal all cards.
+        this.cards.forEach(card => {
+            card.found = true;
+        });
+    }
+
 }

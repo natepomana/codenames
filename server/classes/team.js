@@ -10,7 +10,7 @@ module.exports = class Team {
         this.color = color;
         this.players = [];
         this.spyMaster = null;
-        this.points = 0;
+        this.points = color === "red" ? 9 : 8;
         this.cards = []
     }
 
@@ -44,6 +44,17 @@ module.exports = class Team {
         this.players.forEach(player => {
             if (player.id === id) {
                 console.log("Players match:", id, player);
+                decide = true;
+                return;
+            }
+        });
+        return decide;
+    }
+
+    hasCard(pickedCard) {
+        let decide = false;
+        this.cards.forEach(card => {
+            if (card.word === pickedCard) {
                 decide = true;
                 return;
             }
