@@ -81,7 +81,7 @@ export class Game extends Component {
 
     render() {
         const allCards = this.state.cards;
-        return (<Box mt={350}>
+        return (<Box mt={50}>
             <Box>
                 <Text fontSize="xl">Red Team: {this.state.redCardsLeft}   Blue Team: {this.state.blueCardsLeft}</Text>
             </Box>

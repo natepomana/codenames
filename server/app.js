@@ -96,6 +96,9 @@ io.on("connection", socket => {
     socket.on("disconnect", () => {
         console.log("Client disconnected");
         count -= 1
+	if (count === 0){
+	    game = new Game();
+	}
     });
 
 });
