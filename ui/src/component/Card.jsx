@@ -46,7 +46,7 @@ class Card extends Component {
     }
 
     setWordColor = () => {
-        if (this.state.selectionConfirmed) {
+        if (this.props.isSelectionConfirmed) {
             return "gray.100";
         }
         if (!this.props.isSpyMaster) {
